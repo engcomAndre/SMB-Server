@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  samba:
+    build: .
+    image: samba-cobranca
+    container_name: samba-cobranca
+    hostname: smb-server
+    environment:
+      - USERID=1000
+      - GROUPID=1000
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139"
+      - "445:445"
+    command: >
+      -p
+      -s "fileshare;/smb/fileshare;yes;no;yes;smbuser;smbpass"
+      -u "smbuser;smbpass"
+    volumes:
+      - ./fileshare:/smb/fileshare
